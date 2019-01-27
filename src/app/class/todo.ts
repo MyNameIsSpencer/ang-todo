@@ -8,7 +8,7 @@ export class Todo {
     Object.assign(this, value);
   }
 
-  // ^^^ does same as VVVV
+  // ^^^ does same as VVVV????
 
   // constructor( id, title, date, complete ) {
   //   this.id = id;
