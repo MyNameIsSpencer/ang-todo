@@ -4,6 +4,7 @@ import { Injectable } from '@angular/core';
 @Injectable({
   providedIn: 'root'
 })
+
 export class TodoDataService {
   lastId = 0;
   todos: Todo[] = []
@@ -16,7 +17,7 @@ export class TodoDataService {
     }
     const todos = this.getAllTodos();
     todos.push(todo);
-
+    this.setTodo(todos);
     return this;
   }
 
@@ -28,4 +29,13 @@ export class TodoDataService {
       return storageItem.todos;
     }
   }
+
+  setTodo(usertodos: Todo[]) {
+    window.localStorage.setItem('app-todos',
+      JSON.stringify({todos: usertodos})   // getting todos from getAllTodos() return
+    );
+  }
+
+
+// class End
 }

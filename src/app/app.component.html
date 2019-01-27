@@ -7,12 +7,12 @@
     <form class="form-inline">
       <div class="form-row">
         <div class="col-md-5">
-          <input type="text" name="title" class="form-control" placeholder="Todo Title" autocomplete="off">
+          <input type="text" name="title" [(ngModel)]="newTodo.title" class="form-control" placeholder="Todo Title" autocomplete="off">
         </div>
         <div class="col-md-5">
           <div class="form-group">
             <div class="input-group">
-              <input class="form-control" placeholder="Completion Date" name="dp" ngbDatepicker #d="ngbDatepicker">
+              <input class="form-control" [(ngModel)]="newTodo.date" placeholder="Completion Date" name="dp" ngbDatepicker #d="ngbDatepicker">
               <div class="input-group-append">
                 <button class="btn btn-outline-secondary calendar" (click)="d.toggle()" type="button">
                   <i class="fa fa-calendar "></i>

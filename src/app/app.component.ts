@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { Todo } from './class/todo';
+import { TodoDataService } from  './services/todo-data.service';
 
 @Component({
   selector: 'app-root',
@@ -6,10 +8,10 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-
-  constructor() {}
+  newTodo: Todo = new Todo();
+  constructor(private todoService: TodoDataService) {}
 
   addTodo() {
-
+    console.log(this.newTodo);
   }
 }
