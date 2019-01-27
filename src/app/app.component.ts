@@ -12,6 +12,9 @@ export class AppComponent {
   constructor(private todoService: TodoDataService) {}
 
   addTodo() {
-    console.log(this.newTodo);
+    if (this.newTodo.title && this.newTodo.date) {
+      this.todoService.addTodos(this.newTodo);
+    }
+    // console.log(this.newTodo);
   }
 }
