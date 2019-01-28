@@ -30,6 +30,23 @@ export class TodoDataService {
     }
   }
 
+  getTodoById(id: number): Todo {
+    const todos = this.getAllTodos();
+    return todos.filter(todo => todo.id === id).pop();
+  }
+
+  updateTodo(id: number, values: Object = {}) {
+    const todo = this.getTodoById(id);
+    if (!todo) {
+      return null;
+    }
+    let todos = this.getAllTodos();
+    todos = todos.filter(t => t.id !== todo.id);
+    const todoValues = Object.assign(todo, values);
+    todos.push(todoValues);
+    this.setTodo(todos);
+  }
+
   setTodo(usertodos: Todo[]) {
     window.localStorage.setItem('app-todos',
       JSON.stringify({todos: usertodos})   // getting todos from getAllTodos() return
