@@ -11,9 +11,14 @@ export class AppComponent {
   newTodo: Todo = new Todo();
   constructor(private todoService: TodoDataService) {}
 
+  get todos() {  // <<< a getter
+    return this.todoService.getAllTodos();
+  }
+
   addTodo() {
     if (this.newTodo.title && this.newTodo.date) {
       this.todoService.addTodos(this.newTodo);
+      console.log(this.newTodo);
     }
     // console.log(this.newTodo);
   }

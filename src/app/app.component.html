@@ -28,7 +28,7 @@
     </form>
   </div>
 
-  <table class="table">
+  <table class="table" *ngIf="todos.length > 0">
     <thead>
       <tr>
         <th></th>
@@ -39,10 +39,14 @@
       </tr>
     </thead>
     <tbody>
-      <tr>
-        <td></td>
+      <tr *ngFor="let todo of todos">
+        <!-- <td></td>
         <td>Wash Dishes</td>
         <td>25-09-2018</td>
+        <td>Not Complete</td> -->
+        <td></td>
+        <td>{{todo.title}}</td>
+        <td>{{todo.date.year}}-{{todo.date.month}}-{{todo.date.day}}</td>
         <td>Not Complete</td>
         <td class="icons">
           <button class="btn btn-success">
