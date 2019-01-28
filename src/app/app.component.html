@@ -47,7 +47,8 @@
         <td></td>
         <td>{{todo.title}}</td>
         <td>{{todo.date.year}}-{{todo.date.month}}-{{todo.date.day}}</td>
-        <td>Not Complete</td>
+        <td *ngIf="!todo.complete">Not Complete</td>
+        <td *ngIf="todo.complete">Complete</td>
         <td class="icons">
           <button class="btn btn-success">
             <i class="fa fa-check"></i>
