@@ -22,4 +22,8 @@ export class AppComponent {
     }
     // console.log(this.newTodo);
   }
+
+  completeTodo(todo) {
+    this.todoService.completeTodo(todo);
+  }
 }

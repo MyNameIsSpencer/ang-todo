@@ -47,6 +47,13 @@ export class TodoDataService {
     this.setTodo(todos);
   }
 
+  completeTodo(todo: Todo) {
+    const updatedTodo = this.updateTodo(todo.id, {
+      complete: !todo.complete
+    });
+    return updatedTodo;
+  }
+
   setTodo(usertodos: Todo[]) {
     window.localStorage.setItem('app-todos',
       JSON.stringify({todos: usertodos})   // getting todos from getAllTodos() return

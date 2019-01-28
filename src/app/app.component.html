@@ -51,7 +51,7 @@
         <td *ngIf="todo.complete">Complete</td>
         <td class="icons">
           <button class="btn btn-success">
-            <i class="fa fa-check"></i>
+            <i class="fa fa-check" (click)="completeTodo(todo)"></i>
           </button>
           <button class="btn btn-primary">
             <i class="fa fa-pencil"></i>
