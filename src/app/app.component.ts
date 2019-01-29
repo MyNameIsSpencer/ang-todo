@@ -18,9 +18,10 @@ export class AppComponent {
   addTodo() {
     if (this.newTodo.title && this.newTodo.date) {
       this.todoService.addTodos(this.newTodo);
-      console.log(this.newTodo);
+      this.newTodo = new Todo();
+      this.newTodo.title = '';
+      this.newTodo.date = '';
     }
-    // console.log(this.newTodo);
   }
 
   completeTodo(todo) {

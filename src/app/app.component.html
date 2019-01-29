@@ -44,14 +44,17 @@
         <td>Wash Dishes</td>
         <td>25-09-2018</td>
         <td>Not Complete</td> -->
-        <td></td>
+        <td>
+          <i class="fa facheck-circle" *ngIf="todo.complete"></i>
+          <i class="fa fa-circle-o" *ngIf="!todo.complete"></i>
+        </td>
         <td>{{todo.title}}</td>
         <td>{{todo.date.year}}-{{todo.date.month}}-{{todo.date.day}}</td>
         <td *ngIf="!todo.complete">Not Complete</td>
         <td *ngIf="todo.complete">Complete</td>
         <td class="icons">
-          <button class="btn btn-success">
-            <i class="fa fa-check" (click)="completeTodo(todo)"></i>
+          <button class="btn btn-success" (click)="completeTodo(todo)" [disabled]="todo.complete">
+            <i class="fa fa-check" ></i>
           </button>
           <button class="btn btn-primary">
             <i class="fa fa-pencil"></i>

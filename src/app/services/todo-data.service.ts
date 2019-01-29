@@ -9,7 +9,15 @@ export class TodoDataService {
   lastId = 0;
   todos: Todo[] = []
 
-  constructor() {}
+  constructor() {
+    const todos = this.getAllTodos();
+    if(todos.length === 0) {
+      this.lastId = 0;
+    } else {
+      const maxId = todos[todos.length - 1].id;
+      this.lastId = maxId + 1;
+    }
+  }
 
   addTodos(todo: Todo): TodoDataService {
     if(!todo.id) {
