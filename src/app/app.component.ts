@@ -27,4 +27,8 @@ export class AppComponent {
   completeTodo(todo) {
     this.todoService.completeTodo(todo);
   }
+
+  deleteTodo(todo) {
+    this.todoService.deleteTodoById(todo.id);
+  }
 }
