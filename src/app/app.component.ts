@@ -16,7 +16,7 @@ export class AppComponent {
   todo: any;
   titleValue: string;
   dateValue: string;
-  isEdited: boolean;
+  // isEdited: boolean;
 
   constructor(
     private todoService: TodoDataService,
@@ -76,8 +76,8 @@ export class AppComponent {
     if (todo.date && !todo.date.month) {
       this.titleValue = `${todo.title}`;
       this.dateValue = `${this.todo.date`};
-     }
-    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title'})
+    }
+    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' });
   }
 
   updateTodo() {
