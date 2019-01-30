@@ -16,6 +16,7 @@ export class AppComponent {
   todo: any;
   titleValue: string;
   dateValue: string;
+  isEdited: boolean;
 
   constructor(
     private todoService: TodoDataService,
@@ -52,7 +53,6 @@ export class AppComponent {
   }
 
   open(content, todo) {
-    this.isEdited = false;
     console.log(todo);
     this.isEdited = false;
     this.initForm();
