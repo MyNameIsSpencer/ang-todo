@@ -1,3 +1,4 @@
+
 import { Component } from '@angular/core';
 import { Todo } from './class/todo';
 import { TodoDataService } from  './services/todo-data.service';
@@ -75,7 +76,7 @@ export class AppComponent {
     }
     if (todo.date && !todo.date.month) {
       this.titleValue = `${todo.title}`;
-      this.dateValue = `${this.todo.date`};
+      this.dateValue = `${this.todo.date}`;
     }
     this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' });
   }
