@@ -49,7 +49,8 @@
           <i class="fa fa-circle-o" *ngIf="!todo.complete"></i>
         </td>
         <td>{{todo.title}}</td>
-        <td>{{todo.date.year}}-{{todo.date.month}}-{{todo.date.day}}</td>
+        <td *ngIf="todo.date.year && todo.date.month">{{todo.date.year}}-{{todo.date.month}}-{{todo.date.day}}</td>
+        <td *ngIf="todo.date && !todo.date.month">{{ todo.date }}</td>
         <td *ngIf="!todo.complete">Not Complete</td>
         <td *ngIf="todo.complete">Complete</td>
         <td class="icons">

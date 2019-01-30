@@ -45,32 +45,43 @@ export class AppComponent {
     this.todoService.deleteTodoById(todo.id);
   }
 
-  initForm() {
-    this.editForm = this.fb.group({
-      title: ['', Validators.required],
-      date: ['', Validators.required]
-    });
+  initForm(todo) {
+    if (todo.date.year && todo.date.month) {
+      this.editForm = this.fb.group({
+        title: [`${todo.title}`, Validators.required],
+        date: [`${todo.date.year}-${todo.date.month}-${todo.date.day}`, Validators.required]
+      });
+    } else if (todo.date && !todo.date.month) {
+      this.editForm = this.fb.group({
+        title: [`${todo.title}`, Validators.required],
+        date: [`${todo.date}`, Validators.required]
+      });
+    }
   }
 
   open(content, todo) {
     console.log(todo);
     this.isEdited = false;
-    this.initForm();
+    this.initForm(todo);
     this.todo = {
       id: todo.id,
       title: todo.title,
       date: todo.date,
       complete: todo.complete
-    }
-    if(todo.date.year && todo.date.month) {
+    };
+    if (todo.date.year && todo.date.month) {
       this.titleValue = `${todo.title}`;
       this.dateValue = `${todo.date.year}-${todo.date.month}-${todo.date.day}`;
     }
-    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'})
+    if (todo.date && !todo.date.month) {
+      this.titleValue = `${todo.title}`;
+      this.dateValue = `${this.todo.date`};
+     }
+    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title'})
   }
 
   updateTodo() {
     this.todoService.updateTodo(this.todo.id, this.editForm.value);
     this.isEdited = true;
   }
- }
+}
