@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { Todo } from './class/todo';
 import { TodoDataService } from  './services/todo-data.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-root',
@@ -9,7 +11,17 @@ import { TodoDataService } from  './services/todo-data.service';
 })
 export class AppComponent {
   newTodo: Todo = new Todo();
-  constructor(private todoService: TodoDataService) {}
+
+  editForm: FormGroup;
+  todo: any;
+  titleValue: string;
+  dateValue: string;
+
+  constructor(
+    private todoService: TodoDataService,
+    private modalService: NgbModal,
+    private fb: FormBuilder
+  ) {}
 
   get todos() {  // <<< a getter
     return this.todoService.getAllTodos();
@@ -31,4 +43,34 @@ export class AppComponent {
   deleteTodo(todo) {
     this.todoService.deleteTodoById(todo.id);
   }
-}
+
+  initForm() {
+    this.editForm = this.fb.group({
+      title: ['', Validators.required],
+      date: ['', Validators.required]
+    });
+  }
+
+  open(content, todo) {
+    this.isEdited = false;
+    console.log(todo);
+    this.isEdited = false;
+    this.initForm();
+    this.todo = {
+      id: todo.id,
+      title: todo.title,
+      date: todo.date,
+      complete: todo.complete
+    }
+    if(todo.date.year && todo.date.month) {
+      this.titleValue = `${todo.title}`;
+      this.dateValue = `${todo.date.year}-${todo.date.month}-${todo.date.day}`;
+    }
+    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'})
+  }
+
+  updateTodo() {
+    this.todoService.updateTodo(this.todo.id, this.editForm.value);
+    this.isEdited = true;
+  }
+ }

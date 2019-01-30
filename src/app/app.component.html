@@ -15,7 +15,7 @@
               <input class="form-control" [(ngModel)]="newTodo.date" placeholder="Completion Date" name="dp" ngbDatepicker #d="ngbDatepicker">
               <div class="input-group-append">
                 <button class="btn btn-outline-secondary calendar" (click)="d.toggle()" type="button">
-                  <i class="fa fa-calendar "></i>
+                  <i class="fa fa-calendar" aria-hidden="true"></i>
                 </button>
               </div>
             </div>
@@ -56,7 +56,7 @@
           <button class="btn btn-success" (click)="completeTodo(todo)" [disabled]="todo.complete">
             <i class="fa fa-check" ></i>
           </button>
-          <button class="btn btn-primary">
+          <button class="btn btn-primary" (click)="open(content, todo)">
             <i class="fa fa-pencil"></i>
           </button>
           <button class="btn btn-danger" (click)="deleteTodo(todo)">
@@ -77,4 +77,46 @@
     </tbody>
   </table>
 
-</div>
+</div>   <!-- End of container div -->
+
+
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Edit Todo</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <ngb-alert *ngIf="isEdited" type="success">
+    <!-- <ngb-alert [dismissible]="false"> -->
+    <!-- <strong>Warning!</strong> Better check yourself, you're not looking too good. -->
+      Todo is updated successfully!!
+    </ngb-alert>
+
+    <form [formGroup]="editForm">
+      <div class="form-group">
+        <label for="">Title</label>
+        <div class="input-group ">
+          <input type="text" class="form-control" name="title" formControlName="title"  >
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="date">Completion Date</label>
+        <div class="input-group">
+          <input id="date" class="form-control" formControlName="date" value="{{dateValue}}" name="dp" ngbDatepicker #dp="ngbDatepicker">
+          <div class="input-group-append">
+            <button class="btn btn-outline-secondary calendar" (click)="dp.toggle()" type="button">
+              <i class="fa fa-calendar" aria-hidden="true"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <!-- <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Cancel</button> -->
+    <button type="button" class="btn btn-danger" (click)="modal.close('Closed')">Cancel</button>
+    <button type="button" class="btn btn-primary" (click)="updateTodo()">Save</button>
+  </div>
+</ng-template>
