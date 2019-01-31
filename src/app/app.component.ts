@@ -17,7 +17,7 @@ export class AppComponent {
   todo: any;
   titleValue: string;
   dateValue: string;
-  // isEdited: boolean;
+  isEdited: boolean;
 
   constructor(
     private todoService: TodoDataService,
@@ -86,6 +86,6 @@ export class AppComponent {
     this.isEdited = true;
     setTimeout(() => {
       this.modalService.dismissAll();   //  <<<<< comes from ng modalService
-    }, 1500);
+    }, 2000);
   }
 }
