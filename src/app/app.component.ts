@@ -84,5 +84,8 @@ export class AppComponent {
   updateTodo() {
     this.todoService.updateTodo(this.todo.id, this.editForm.value);
     this.isEdited = true;
+    setTimeout(() => {
+      this.modalService.dismissAll();   //  <<<<< comes from ng modalService
+    }, 1500);
   }
 }
