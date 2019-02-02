@@ -1,9 +1,14 @@
+import { AppState } from './store/app.state';
+import { Store } from '@ngrx/store';
+import * as TodoActions from './store/todo.actions';
 
 import { Component } from '@angular/core';
-import { Todo } from './class/todo';
-import { TodoDataService } from  './services/todo-data.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+
+import { TodoDataService } from  './services/todo-data.service';
+import { Todo } from './class/todo';
+
 
 @Component({
   selector: 'app-root',
@@ -22,7 +27,8 @@ export class AppComponent {
   constructor(
     private todoService: TodoDataService,
     private modalService: NgbModal,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private store: store<AppState>
   ) {}
 
   get todos() {  // <<< a getter
@@ -31,10 +37,14 @@ export class AppComponent {
 
   addTodo() {
     if (this.newTodo.title && this.newTodo.date) {
-      this.todoService.addTodos(this.newTodo);
+      // this.todoService.addTodos(this.newTodo);     //  <<<< old
+      // this.TodoDataService.addTodos(this.newTodo);   //  replaced by this.store.dispatch VVVVV
+      this.store.dispatch(new TodoActions.AddTodo(this.newTodo));
       this.newTodo = new Todo();
-      this.newTodo.title = '';
       this.newTodo.date = '';
+      this.isEmpty = false;
+    } else {
+      this.isEmpty = true;
     }
   }
 
