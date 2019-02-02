@@ -17,18 +17,20 @@ import { Todo } from './class/todo';
 })
 export class AppComponent {
   newTodo: Todo = new Todo();
-
-  editForm: FormGroup;
+  closeResult: string;
   todo: any;
-  titleValue: string;
+  edit: FormGroup;
+  editForm: FormGroup;
+  isEdited = false;
   dateValue: string;
-  isEdited: boolean;
+  titleValue: string;
+  isEmpty = false;
 
   constructor(
     private todoService: TodoDataService,
     private modalService: NgbModal,
     private fb: FormBuilder,
-    private store: store<AppState>
+    private store: Store<AppState>
   ) {}
 
   get todos() {  // <<< a getter

@@ -3,7 +3,7 @@ import { TodoActions, ActionTypes } from './todo.actions';
 
 const initialState: Todo = {
   id: 1,
-  title: dinner,
+  title: 'dinner',
   date: '2019-11-18',
   complete: false
 };
@@ -15,7 +15,12 @@ export function todoReducer(state = [initialState], action: TodoActions) {
       action.payload.id = state.length + 1;
       return[...state, action.payload];
 
-      default:
-        return state;
+    case ActionTypes.UPDATE_TODO:
+      return state.map(todo => {
+        return todo.id === action.payload.id ? action.payload.newTodo : todo;
+      });
+
+    default:
+      return state;
   }
 }
