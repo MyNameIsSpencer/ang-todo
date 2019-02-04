@@ -33,10 +33,13 @@ export class AppComponent {
     private modalService: NgbModal,
     private fb: FormBuilder,
     private store: Store<AppState>
-  ) {}
+  ) {
+    this.todos$ = this. store.select('todos');
+  }
 
   get todos() {  // <<< a getter
-    return this.todoService.getAllTodos();
+    // return this.todoService.getAllTodos();
+    return this.todos$;
   }
 
   addTodo() {
@@ -53,11 +56,13 @@ export class AppComponent {
   }
 
   completeTodo(todo) {
-    this.todoService.completeTodo(todo);
+    // this.todoService.completeTodo(todo);
+    this.store.dispatch(new TodoActions.ToggleTodo(todo));
   }
 
   deleteTodo(todo) {
-    this.todoService.deleteTodoById(todo.id);
+    // this.todoService.deleteTodoById(todo.id);
+    this.store.dispatch(new TodoActions.DeleteTodo({ id: todo.id }));
   }
 
   initForm(todo) {
