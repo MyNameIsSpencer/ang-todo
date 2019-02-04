@@ -1,6 +1,7 @@
 import { AppState } from './store/app.state';
 import { Store } from '@ngrx/store';
 import * as TodoActions from './store/todo.actions';
+import { Observable } from 'rxjs';
 
 import { Component } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -16,6 +17,7 @@ import { Todo } from './class/todo';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
+  todos$: Observable<Todo[]>;
   newTodo: Todo = new Todo();
   closeResult: string;
   todo: any;
@@ -94,7 +96,19 @@ export class AppComponent {
   }
 
   updateTodo() {
-    this.todoService.updateTodo(this.todo.id, this.editForm.value);
+    // this.todoService.updateTodo(this.todo.id, this.editForm.value);
+    const updatedTodo = {
+      id: this.todo.id,
+      title: this.edit.value.title,
+      date: this.edit.value.date,
+      complete: false
+    };
+
+    this.store.dispatch(new TodoActions.UpdateTodo({
+      id: this.todo.id,
+      newTodo: updatedTodo
+    }));
+
     this.isEdited = true;
     setTimeout(() => {
       this.modalService.dismissAll();   //  <<<<< comes from ng modalService
