@@ -3,7 +3,7 @@ import { Store } from '@ngrx/store';
 import * as TodoActions from './store/todo.actions';
 import { Observable } from 'rxjs';
 
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
@@ -16,17 +16,30 @@ import { Todo } from './class/todo';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   todos$: Observable<Todo[]>;
+  getTodos: any;
   newTodo: Todo = new Todo();
   closeResult: string;
-  todo: any;
-  edit: FormGroup;
+
+  // edit: FormGroup;
   editForm: FormGroup;
-  isEdited = false;
-  dateValue: string;
+  todo: any;
   titleValue: string;
+  dateValue: string;
+  isEdited = false;
   isEmpty = false;
+
+  // xport class AppComponent implements OnInit {
+  //   todos$: Observable<Todo[]>;
+  //   newTodo: Todo = new Todo();
+  //   getTodos: any;
+  //
+  //   editForm: FormGroup;
+  //   todo: any;
+  //   titleValue: string;
+  //   dateValue: string;
+  //   isEdited = false;
 
   constructor(
     private todoService: TodoDataService,
@@ -34,7 +47,7 @@ export class AppComponent {
     private fb: FormBuilder,
     private store: Store<AppState>
   ) {
-    this.todos$ = this. store.select('todos');
+    this.todos$ = this.store.select('todos');
   }
 
   get todos() {  // <<< a getter
@@ -42,11 +55,18 @@ export class AppComponent {
     return this.todos$;
   }
 
+  ngOnInit() {
+    this.getTodos = this.todoService.getAllTodos();
+    this.getTodos.forEach( todo => {
+      this.store.dispatch(new TodoActions.LoadTodo(todo));
+    });
+  }
+
   addTodo() {
     if (this.newTodo.title && this.newTodo.date) {
       // this.todoService.addTodos(this.newTodo);     //  <<<< old
-      // this.TodoDataService.addTodos(this.newTodo);   //  replaced by this.store.dispatch VVVVV
-      this.store.dispatch(new TodoActions.AddTodo(this.newTodo));
+      this.store.dispatch(new TodoActions.AddTodo(this.newTodo));  //  <<<< dispatch action before addTodo otherwise errors
+      this.todoService.addTodos(this.newTodo);   //  replaced by this.store.dispatch VVVVV
       this.newTodo = new Todo();
       this.newTodo.date = '';
       this.isEmpty = false;
@@ -56,12 +76,12 @@ export class AppComponent {
   }
 
   completeTodo(todo) {
-    // this.todoService.completeTodo(todo);
+    this.todoService.completeTodo(todo);
     this.store.dispatch(new TodoActions.ToggleTodo(todo));
   }
 
   deleteTodo(todo) {
-    // this.todoService.deleteTodoById(todo.id);
+    this.todoService.deleteTodoById(todo.id);
     this.store.dispatch(new TodoActions.DeleteTodo({ id: todo.id }));
   }
 
@@ -77,6 +97,26 @@ export class AppComponent {
         date: [`${todo.date}`, Validators.required]
       });
     }
+  }
+
+  updateTodo() {
+    this.todoService.updateTodo(this.todo.id, this.editForm.value);
+    const updatedTodo = {
+      id: this.todo.id,
+      title: this.editForm.value.title,
+      date: this.editForm.value.date,
+      complete: false
+    };
+
+    this.store.dispatch(new TodoActions.UpdateTodo({
+      id: this.todo.id,
+      newTodo: updatedTodo
+    }));
+
+    this.isEdited = true;
+    setTimeout(() => {
+      this.modalService.dismissAll();   //  <<<<< comes from ng modalService
+    }, 2000);
   }
 
   open(content, todo) {
@@ -100,23 +140,4 @@ export class AppComponent {
     this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' });
   }
 
-  updateTodo() {
-    // this.todoService.updateTodo(this.todo.id, this.editForm.value);
-    const updatedTodo = {
-      id: this.todo.id,
-      title: this.edit.value.title,
-      date: this.edit.value.date,
-      complete: false
-    };
-
-    this.store.dispatch(new TodoActions.UpdateTodo({
-      id: this.todo.id,
-      newTodo: updatedTodo
-    }));
-
-    this.isEdited = true;
-    setTimeout(() => {
-      this.modalService.dismissAll();   //  <<<<< comes from ng modalService
-    }, 2000);
-  }
 }

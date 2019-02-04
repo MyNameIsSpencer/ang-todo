@@ -18,7 +18,7 @@ export class AddTodo implements Action {
 export class UpdateTodo implements Action {
   readonly type = ActionTypes.UPDATE_TODO;
 
-  constructor(public payload: { id: number; todo: Todo }) {}
+  constructor(public payload: { id: number; newTodo: Todo }) {}
 }
 
 export class ToggleTodo implements Action {
